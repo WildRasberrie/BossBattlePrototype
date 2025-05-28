@@ -558,7 +558,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -670,6 +670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41eef67b51c8e84daa0de4fe5b815f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vel: 5
+  rotVel: 100
 --- !u!1 &783722763
 GameObject:
   m_ObjectHideFlags: 0
