@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts.meta
 guid: 9760079eb48746848a1b3da1f425a4da
+========
+guid: 5ba89aa82fbf9ee4c9ba04b626931e0d
+>>>>>>>> Manny:Assets/Animations.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
