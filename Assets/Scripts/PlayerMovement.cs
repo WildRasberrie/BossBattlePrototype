@@ -4,8 +4,15 @@ public class PlayerMovement : MonoBehaviour
 {
     Vector3 mousePos; //mouse position 
     public static PlayerMovement player;
+    bool space;
+    public float playerHeight =1.0f;
+    public LayerMask IsGround; //layer mask for ground
+    public float jumpSpeed = 5.0f; // jump height
     public float vel = 8.0f;//create velocity 
     public float rotVel = 120.0f; //set rotate speed
+
+    bool onGround; //check if player is on the ground
+
     float camRot; //camera rotation
     GameObject cam;
     private Rigidbody rb; //ref player's rigidbody
@@ -17,18 +24,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-
         rb = GetComponent<Rigidbody>(); // Access player's rb
         cam = Camera.main.gameObject; //get main camera
-            // Clamp & Hide cursor 
+                                      // Clamp & Hide cursor 
         CursorClamp();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        GroundCheck();
+        Jump();
     }
 
     void FixedUpdate()
@@ -37,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
         PlayerControl();
         // Add camera control
         CameraControl();
-    
-
     }
 
     void PlayerControl()
@@ -55,7 +59,22 @@ public class PlayerMovement : MonoBehaviour
 
         rb.MoveRotation(rb.rotation * turnRotation);
 
+        // jump player if space pressed
+        if (space)
+        {
+            space = false;
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse); //apply force to player rigidbody
+        }
+
     }
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && onGround)
+        {
+            space = true;
+        }  
+     }
 
     void CameraControl()
     {
@@ -63,9 +82,7 @@ public class PlayerMovement : MonoBehaviour
         //rotate camera
         if (camRot != 0f)
         {
-
             camRot = Mathf.Clamp(camRot, -0.3f, 0.3f); //clamp rotation to prevent flipping
-            print(camRot);
         }
 
         cam.transform.Rotate(camRot, 0f, 0f); //rotate camera around X axis             
@@ -74,8 +91,14 @@ public class PlayerMovement : MonoBehaviour
     void CursorClamp()
     {
         //lock cursor to screen 
-        Cursor.lockState = CursorLockMode.Confined;S
+        Cursor.lockState = CursorLockMode.Confined; 
         //hide cursor 
-        Cursor.visible = false; 
+        Cursor.visible = false;
+    }
+
+    void GroundCheck()
+    {
+        //check if player is on the ground
+        onGround = (Physics.Raycast(transform.position, Vector3.down, 1.2f, IsGround));
     }
 }
