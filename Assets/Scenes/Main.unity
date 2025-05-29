@@ -835,6 +835,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 430986, guid: 2736bbc2f2c78a949957b0719c2992bd, type: 3}
   m_PrefabInstance: {fileID: 1301536474}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &761264084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761264085}
+  m_Layer: 0
+  m_Name: Stands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &761264085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761264084}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.99117535, z: -0, w: -0.13255729}
+  m_LocalPosition: {x: 0.18, y: 7.082, z: 48.392}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -195.235, z: 0}
 --- !u!1 &783722763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,6 +1494,7 @@ MonoBehaviour:
   water: {fileID: 1190818918}
   lightning: {fileID: 1095251150}
   center: {fileID: 158890527}
+  stands: {fileID: 761264085}
 --- !u!1 &1190818918
 GameObject:
   m_ObjectHideFlags: 0
@@ -2092,3 +2124,4 @@ SceneRoots:
   - {fileID: 1190818921}
   - {fileID: 1095251151}
   - {fileID: 158890527}
+  - {fileID: 761264085}

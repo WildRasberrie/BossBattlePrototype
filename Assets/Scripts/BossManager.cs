@@ -4,9 +4,11 @@ using UnityEngine.AI;
 
 public class BossManager : MonoBehaviour
 {
+    PlayerMovement player;
     // This will handle all of the boss's movements, animations, attacks, etc.
     NavMeshAgent agent;
     Animator anim;
+    Rigidbody rb;
     public bool move;
     [Header("All Attacks")]
     public bool swingAttack;
@@ -16,9 +18,10 @@ public class BossManager : MonoBehaviour
     [SerializeField] GameObject water;
     [SerializeField] GameObject lightning;
     [SerializeField] Transform center;
-    bool waterHazard, isElectric;
+    [SerializeField] Transform stands;
+    bool waterHazard, isElectric, levitate, moveToStands;
     float waterStart = -1.0f, waterEnd = 0.8f, lightningDuration = 3.0f, waitForAnim = 3.3f;
-    Vector3 waterPos;
+    Vector3 waterPos, pos;
     enum WaterState
     {
         rising,
@@ -37,6 +40,10 @@ public class BossManager : MonoBehaviour
         lightning.SetActive(false);
         waterPos = water.transform.localPosition;
         waterStart = waterPos.y;
+        pos = this.transform.localPosition;
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        //player = PlayerMovement.player;
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -51,6 +58,11 @@ public class BossManager : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if(levitate) Float();   
+    }
+
     void Movement()
     {
         water.transform.localPosition = waterPos;
@@ -59,16 +71,30 @@ public class BossManager : MonoBehaviour
         {
             if (Vector3.Distance(this.transform.position, center.position) > 2.0f)
             {
-                agent.SetDestination(center.position);
+                if(agent.enabled) agent.SetDestination(center.position);
+                pos = this.transform.localPosition;
             }
             else
             {
-                agent.isStopped = true;
-                agent.velocity = Vector3.zero;
-
-                if (agent.velocity == Vector3.zero)
+                if (agent.enabled)
                 {
-                    anim.SetTrigger("push");
+                    if (!agent.isStopped)
+                    {
+                        agent.velocity = Vector3.zero;
+                        agent.isStopped = true;
+                    }
+
+                    if (agent.velocity == Vector3.zero)
+                    {
+                        anim.SetTrigger("push");
+                        agent.enabled = false;
+                    }
+                }
+                
+
+                if (waitForAnim < 1.5f)
+                {
+                    levitate = true;
                 }
 
                 if (waitForAnim > 0f)
@@ -78,8 +104,10 @@ public class BossManager : MonoBehaviour
                 else
                 {
                     anim.ResetTrigger("push");
+                    levitate = false;
                     waterHazard = true;
                     waitForAnim = 3.3f;
+                    moveToStands = true;
                     useWater = false;
                 }
             }
@@ -96,6 +124,16 @@ public class BossManager : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
         }
+    }
+
+    void Float()
+    {
+        //rb.AddForce(Vector3.up * 12.0f);
+    }
+
+    void StandsLerp()
+    {
+  
     }
 
     void WaterStateHandler()
